@@ -6,6 +6,14 @@
 #include "GameFramework/Pawn.h"
 #include "Ship.generated.h"
 
+UENUM(BlueprintType)
+enum class EBoostStatus : uint8 {
+	EBS_Normal UMETA(DisplayName = "Normal"),
+	EBS_Pressed UMETA(DisplayName = "Pressed"),
+
+	EBS_MAX UMETA(DisplayName = "DefauktMAX"),
+};
+
 UCLASS()
 class GRAVITYLANDER_API AShip : public APawn
 {
@@ -51,8 +59,28 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	class UPawnMovementComponent* MovementComponent;
 
+	/**
+	* @brief Velocity component that accounts for gravitational influence of celestial bodies
+	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	FVector CurrentAddedVelocity;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Ship Stats")
+	float Fuel;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Ship Stats")
+	float MaxFuel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ship Stats")
+	float FuelDrainRate;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Ship Stats")
+	EBoostStatus BoostStatus;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Ship Stats")
+	int32 score;
+
+	bool bSpaceKeyPressed;
 
 protected:
 	// Called when the game starts or when spawned
@@ -70,6 +98,10 @@ public:
 	void RotateRight(float value);
 
 	void Boost(float value);
+
+	void SpaceKeyDown();
+
+	void SpaceKeyUp();
 
 	FORCEINLINE UCameraComponent* GetCameraComponent() { return PlayerCamera; }
 	FORCEINLINE void SetCameraComponent(UCameraComponent* InCamera) { PlayerCamera = InCamera; }

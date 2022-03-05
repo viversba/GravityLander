@@ -37,6 +37,13 @@ AShip::AShip()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	CurrentAddedVelocity = FVector(0.f, 0.f, 0.f);
+
+	Fuel = 100.f;
+	MaxFuel = 100.f;
+	FuelDrainRate = 10.f;
+	BoostStatus = EBoostStatus::EBS_Normal;
+	score = 0;
+	bSpaceKeyPressed = false;
 }
 
 // Called when the game starts or when spawned
@@ -52,6 +59,14 @@ void AShip::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	BoxComponent->SetAllPhysicsLinearVelocity(-CurrentAddedVelocity, true);
+
+	if (bSpaceKeyPressed) {
+		
+		float DeltaFuel = FuelDrainRate * DeltaTime;
+		if (Fuel - DeltaFuel >= 0) {
+			Fuel -= DeltaFuel;
+		}
+	}
 	//UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), CurrentAddedVelocity.X, CurrentAddedVelocity.Y, CurrentAddedVelocity.Z);
 }
 
@@ -59,6 +74,10 @@ void AShip::Tick(float DeltaTime)
 void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	check(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("Boost", IE_Pressed, this, &AShip::SpaceKeyDown);
+	PlayerInputComponent->BindAction("Boost", IE_Released, this, &AShip::SpaceKeyUp);
 
 	PlayerInputComponent->BindAxis("RotateRight", this, &AShip::RotateRight);
 	PlayerInputComponent->BindAxis("Boost", this, &AShip::Boost);
@@ -73,12 +92,23 @@ void AShip::RotateRight(float value) {
 
 void AShip::Boost(float value) {
 
-	if (MovementComponent != nullptr && value != 0.0f) {
+	if (MovementComponent != nullptr && value != 0.0f && Fuel > 0.f) {
 		
+		//float DeltaFuel = FuelDrainRate * 
 		FVector Up = GetActorUpVector();
 		//FVector AddedVelocity = Up + CurrentAddedVelocity;
 		BoxComponent->SetAllPhysicsLinearVelocity(Up, true);
 	}
+}
+
+void AShip::SpaceKeyDown() {
+	
+	bSpaceKeyPressed = true;
+}
+
+void AShip::SpaceKeyUp() {
+	
+	bSpaceKeyPressed = false;
 }
 
 UPawnMovementComponent* AShip::GetMovementComponent() const {

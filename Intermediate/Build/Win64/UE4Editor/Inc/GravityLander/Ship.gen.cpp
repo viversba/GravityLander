@@ -13,10 +13,11 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeShip() {}
 // Cross Module References
+	GRAVITYLANDER_API UEnum* Z_Construct_UEnum_GravityLander_EBoostStatus();
+	UPackage* Z_Construct_UPackage__Script_GravityLander();
 	GRAVITYLANDER_API UClass* Z_Construct_UClass_AShip_NoRegister();
 	GRAVITYLANDER_API UClass* Z_Construct_UClass_AShip();
 	ENGINE_API UClass* Z_Construct_UClass_APawn();
-	UPackage* Z_Construct_UPackage__Script_GravityLander();
 	ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCapsuleComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UBoxComponent_NoRegister();
@@ -25,6 +26,65 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 	ENGINE_API UClass* Z_Construct_UClass_UPawnMovementComponent_NoRegister();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
 // End Cross Module References
+	static UEnum* EBoostStatus_StaticEnum()
+	{
+		static UEnum* Singleton = nullptr;
+		if (!Singleton)
+		{
+			Singleton = GetStaticEnum(Z_Construct_UEnum_GravityLander_EBoostStatus, Z_Construct_UPackage__Script_GravityLander(), TEXT("EBoostStatus"));
+		}
+		return Singleton;
+	}
+	template<> GRAVITYLANDER_API UEnum* StaticEnum<EBoostStatus>()
+	{
+		return EBoostStatus_StaticEnum();
+	}
+	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EBoostStatus(EBoostStatus_StaticEnum, TEXT("/Script/GravityLander"), TEXT("EBoostStatus"), false, nullptr, nullptr);
+	uint32 Get_Z_Construct_UEnum_GravityLander_EBoostStatus_Hash() { return 222144194U; }
+	UEnum* Z_Construct_UEnum_GravityLander_EBoostStatus()
+	{
+#if WITH_HOT_RELOAD
+		UPackage* Outer = Z_Construct_UPackage__Script_GravityLander();
+		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("EBoostStatus"), 0, Get_Z_Construct_UEnum_GravityLander_EBoostStatus_Hash(), false);
+#else
+		static UEnum* ReturnEnum = nullptr;
+#endif // WITH_HOT_RELOAD
+		if (!ReturnEnum)
+		{
+			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
+				{ "EBoostStatus::EBS_Normal", (int64)EBoostStatus::EBS_Normal },
+				{ "EBoostStatus::EBS_Pressed", (int64)EBoostStatus::EBS_Pressed },
+				{ "EBoostStatus::EBS_MAX", (int64)EBoostStatus::EBS_MAX },
+			};
+#if WITH_METADATA
+			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+				{ "BlueprintType", "true" },
+				{ "EBS_MAX.DisplayName", "DefauktMAX" },
+				{ "EBS_MAX.Name", "EBoostStatus::EBS_MAX" },
+				{ "EBS_Normal.DisplayName", "Normal" },
+				{ "EBS_Normal.Name", "EBoostStatus::EBS_Normal" },
+				{ "EBS_Pressed.DisplayName", "Pressed" },
+				{ "EBS_Pressed.Name", "EBoostStatus::EBS_Pressed" },
+				{ "ModuleRelativePath", "Ship.h" },
+			};
+#endif
+			static const UE4CodeGen_Private::FEnumParams EnumParams = {
+				(UObject*(*)())Z_Construct_UPackage__Script_GravityLander,
+				nullptr,
+				"EBoostStatus",
+				"EBoostStatus",
+				Enumerators,
+				UE_ARRAY_COUNT(Enumerators),
+				RF_Public|RF_Transient|RF_MarkAsNative,
+				EEnumFlags::None,
+				UE4CodeGen_Private::EDynamicType::NotDynamic,
+				(uint8)UEnum::ECppForm::EnumClass,
+				METADATA_PARAMS(Enum_MetaDataParams, UE_ARRAY_COUNT(Enum_MetaDataParams))
+			};
+			UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams);
+		}
+		return ReturnEnum;
+	}
 	void AShip::StaticRegisterNativesAShip()
 	{
 	}
@@ -66,6 +126,27 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CurrentAddedVelocity_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_CurrentAddedVelocity;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Fuel_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Fuel;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MaxFuel_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_MaxFuel;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_FuelDrainRate_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_FuelDrainRate;
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_BoostStatus_Underlying;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_BoostStatus_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_BoostStatus;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_score_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FIntPropertyParams NewProp_score;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -146,10 +227,48 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity_MetaData[] = {
 		{ "Category", "Movement" },
+		{ "Comment", "/**\n\x09* @brief Velocity component that accounts for gravitational influence of celestial bodies\n\x09*/" },
 		{ "ModuleRelativePath", "Ship.h" },
+		{ "ToolTip", "@brief Velocity component that accounts for gravitational influence of celestial bodies" },
 	};
 #endif
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity = { "CurrentAddedVelocity", nullptr, (EPropertyFlags)0x0010000000020015, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, CurrentAddedVelocity), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_Fuel_MetaData[] = {
+		{ "Category", "Ship Stats" },
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_Fuel = { "Fuel", nullptr, (EPropertyFlags)0x0010000000000004, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, Fuel), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_Fuel_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_Fuel_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel_MetaData[] = {
+		{ "Category", "Ship Stats" },
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel = { "MaxFuel", nullptr, (EPropertyFlags)0x0010000000000014, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, MaxFuel), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate_MetaData[] = {
+		{ "Category", "Ship Stats" },
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate = { "FuelDrainRate", nullptr, (EPropertyFlags)0x0010000000000005, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, FuelDrainRate), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate_MetaData)) };
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UE4CodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, 1, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_MetaData[] = {
+		{ "Category", "Ship Stats" },
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus = { "BoostStatus", nullptr, (EPropertyFlags)0x0010000000000014, UE4CodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, BoostStatus), Z_Construct_UEnum_GravityLander_EBoostStatus, METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_score_MetaData[] = {
+		{ "Category", "Ship Stats" },
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_score = { "score", nullptr, (EPropertyFlags)0x0010000000000004, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, score), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_score_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_score_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AShip_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MeshComponent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CapsuleComponent,
@@ -158,6 +277,12 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_PlayerCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MovementComponent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_Fuel,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_Underlying,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_score,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AShip_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<AShip>::IsAbstract,
@@ -186,7 +311,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AShip, 319212766);
+	IMPLEMENT_CLASS(AShip, 1170251538);
 	template<> GRAVITYLANDER_API UClass* StaticClass<AShip>()
 	{
 		return AShip::StaticClass();
