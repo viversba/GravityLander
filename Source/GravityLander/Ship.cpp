@@ -22,7 +22,7 @@ AShip::AShip()
 
 	CameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArm"));
 	CameraSpringArm->SetupAttachment(GetRootComponent());
-	CameraSpringArm->TargetArmLength = 300.f;
+	CameraSpringArm->TargetArmLength = 800.f;
 
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera"));
 	PlayerCamera->SetupAttachment(CameraSpringArm, USpringArmComponent::SocketName);
@@ -35,6 +35,8 @@ AShip::AShip()
 	MovementComponent->UpdatedComponent = RootComponent;
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	CurrentAddedVelocity = FVector(0.f, 0.f, 0.f);
 }
 
 // Called when the game starts or when spawned
@@ -48,6 +50,9 @@ void AShip::BeginPlay()
 void AShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	BoxComponent->SetAllPhysicsLinearVelocity(CurrentAddedVelocity, true);
+	UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), CurrentAddedVelocity.X, CurrentAddedVelocity.Y, CurrentAddedVelocity.Z);
 }
 
 // Called to bind functionality to input
@@ -56,16 +61,7 @@ void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("RotateRight", this, &AShip::RotateRight);
-
 	PlayerInputComponent->BindAxis("Boost", this, &AShip::Boost);
-}
-
-void AShip::MoveForward(float value) {
-
-}
-
-void AShip::MoveRight(float value) {
-
 }
 
 void AShip::RotateRight(float value) {
@@ -80,6 +76,7 @@ void AShip::Boost(float value) {
 	if (MovementComponent != nullptr && value != 0.0f) {
 		
 		FVector Up = GetActorUpVector();
+		//FVector AddedVelocity = Up + CurrentAddedVelocity;
 		BoxComponent->SetAllPhysicsLinearVelocity(Up, true);
 	}
 }

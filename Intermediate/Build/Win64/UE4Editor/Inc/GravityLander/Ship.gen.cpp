@@ -23,6 +23,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UPawnMovementComponent_NoRegister();
+	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
 // End Cross Module References
 	void AShip::StaticRegisterNativesAShip()
 	{
@@ -61,6 +62,10 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MovementComponent_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_MovementComponent;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CurrentAddedVelocity_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_CurrentAddedVelocity;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -138,6 +143,13 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 	};
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_MovementComponent = { "MovementComponent", nullptr, (EPropertyFlags)0x00100000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, MovementComponent), Z_Construct_UClass_UPawnMovementComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_MovementComponent_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_MovementComponent_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity_MetaData[] = {
+		{ "Category", "Movement" },
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity = { "CurrentAddedVelocity", nullptr, (EPropertyFlags)0x0010000000020015, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, CurrentAddedVelocity), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AShip_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MeshComponent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CapsuleComponent,
@@ -145,6 +157,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CameraSpringArm,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_PlayerCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MovementComponent,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedVelocity,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AShip_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<AShip>::IsAbstract,
@@ -173,7 +186,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AShip, 479791274);
+	IMPLEMENT_CLASS(AShip, 319212766);
 	template<> GRAVITYLANDER_API UClass* StaticClass<AShip>()
 	{
 		return AShip::StaticClass();

@@ -51,15 +51,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	class UPawnMovementComponent* MovementComponent;
 
-	FORCEINLINE UCameraComponent* GetCameraComponent() { return PlayerCamera; }
-	FORCEINLINE void SetCameraComponent(UCameraComponent* InCamera) { PlayerCamera = InCamera; }
-	FORCEINLINE USpringArmComponent* GetSpringArmComponent() { return CameraSpringArm; }
-	FORCEINLINE void SetSpringArmComponent(USpringArmComponent* InSpringArm) { CameraSpringArm = InSpringArm; }
-
-	FORCEINLINE UStaticMeshComponent* GetMeshComponent() { return MeshComponent; }
-	FORCEINLINE void SetMeshComponent(UStaticMeshComponent* InMesh) { MeshComponent = InMesh; }
-	FORCEINLINE UCapsuleComponent* GetCapsuleComponent() { return CapsuleComponent; }
-	FORCEINLINE void SetCapsuleComponent(UCapsuleComponent* InCapsule) { CapsuleComponent = InCapsule; }
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+	FVector CurrentAddedVelocity;
 
 protected:
 	// Called when the game starts or when spawned
@@ -74,11 +67,20 @@ public:
 
 	virtual UPawnMovementComponent* GetMovementComponent() const override;
 
-	void MoveForward(float value);
-
-	void MoveRight(float value);
-
 	void RotateRight(float value);
 
 	void Boost(float value);
+
+	FORCEINLINE UCameraComponent* GetCameraComponent() { return PlayerCamera; }
+	FORCEINLINE void SetCameraComponent(UCameraComponent* InCamera) { PlayerCamera = InCamera; }
+	FORCEINLINE USpringArmComponent* GetSpringArmComponent() { return CameraSpringArm; }
+	FORCEINLINE void SetSpringArmComponent(USpringArmComponent* InSpringArm) { CameraSpringArm = InSpringArm; }
+
+	FORCEINLINE UStaticMeshComponent* GetMeshComponent() { return MeshComponent; }
+	FORCEINLINE void SetMeshComponent(UStaticMeshComponent* InMesh) { MeshComponent = InMesh; }
+	FORCEINLINE UCapsuleComponent* GetCapsuleComponent() { return CapsuleComponent; }
+	FORCEINLINE void SetCapsuleComponent(UCapsuleComponent* InCapsule) { CapsuleComponent = InCapsule; }
+
+	FORCEINLINE FVector GetCurrentAddedVelocity() { return CurrentAddedVelocity; }
+	FORCEINLINE void SetCurrentAddedVelocity(FVector Velocity) { CurrentAddedVelocity = Velocity; }
 };

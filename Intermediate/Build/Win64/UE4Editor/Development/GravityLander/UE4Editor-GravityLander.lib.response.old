@@ -11,10 +11,12 @@
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\GravityLanderGameModeBase.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\MainPlayerController.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\Ship.cpp.obj"
+"C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\ShipPawnMovementComponent.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\GravityLander.init.gen.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\GravityLanderGameModeBase.gen.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\MainPlayerController.gen.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\Ship.gen.cpp.obj"
+"C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\ShipPawnMovementComponent.gen.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\Default.rc2.res"
 /OUT:"C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\UE4Editor-GravityLander.lib"
 /INCLUDE:IMPLEMENT_MODULE_GravityLander
