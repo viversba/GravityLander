@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\GravityLander.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{ADF12AA7-D36F-42C0-A705-904738FAF08A}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\GravityLander.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\GravityLanderEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{6164E791-580E-407A-A9FB-AF5B84B2B1E8}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\GravityLander">
+      <UniqueIdentifier>{66FDF8D5-F298-4164-A226-819961A81277}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\GravityLander\GravityLander.Build.cs">
+      <Filter>Source\GravityLander</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\GravityLander\GravityLander.cpp">
+      <Filter>Source\GravityLander</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GravityLander\GravityLander.h">
+      <Filter>Source\GravityLander</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GravityLander\GravityLanderGameModeBase.cpp">
+      <Filter>Source\GravityLander</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GravityLander\GravityLanderGameModeBase.h">
+      <Filter>Source\GravityLander</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GravityLander\MainPlayerController.cpp">
+      <Filter>Source\GravityLander</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GravityLander\MainPlayerController.h">
+      <Filter>Source\GravityLander</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GravityLander\Ship.cpp">
+      <Filter>Source\GravityLander</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GravityLander\Ship.h">
+      <Filter>Source\GravityLander</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GravityLander\ShipPawnMovementComponent.cpp">
+      <Filter>Source\GravityLander</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GravityLander\ShipPawnMovementComponent.h">
+      <Filter>Source\GravityLander</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
