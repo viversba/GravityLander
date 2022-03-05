@@ -43,7 +43,13 @@ public:
 	* @brief Sphere that will influence gravitational behaviour of the ship
 	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
-	class USphereComponent* GravitySphere;
+	class USphereComponent* OutterGravitySphere;
+
+	/**
+	* @brief Inner bound of gravitational influence of the celestial body
+	*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
+	class USphereComponent* InnerGravitySphere;
 
 	/**
 	* @brief Capsule half height
@@ -86,9 +92,15 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	virtual void OnOverlapBeginOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 	UFUNCTION()
-	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	virtual void OnOverlapEndOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UFUNCTION()
+	virtual void OnOverlapBeginInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	virtual void OnOverlapEndInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 };

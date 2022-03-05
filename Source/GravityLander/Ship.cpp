@@ -51,8 +51,8 @@ void AShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	BoxComponent->SetAllPhysicsLinearVelocity(CurrentAddedVelocity, true);
-	UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), CurrentAddedVelocity.X, CurrentAddedVelocity.Y, CurrentAddedVelocity.Z);
+	BoxComponent->SetAllPhysicsLinearVelocity(-CurrentAddedVelocity, true);
+	//UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), CurrentAddedVelocity.X, CurrentAddedVelocity.Y, CurrentAddedVelocity.Z);
 }
 
 // Called to bind functionality to input

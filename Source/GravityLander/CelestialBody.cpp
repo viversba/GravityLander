@@ -36,13 +36,17 @@ ACelestialBody::ACelestialBody()
 		MeshComponent->SetWorldScale3D(FVector(SphereScale, SphereScale, SphereScale));
 	}
 
-	GravitySphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Component"));
-	GravitySphere->SetupAttachment(GetRootComponent());
-	GravitySphere->InitSphereRadius(CapsuleRadius * 4.f);
+	OutterGravitySphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Component"));
+	OutterGravitySphere->SetupAttachment(GetRootComponent());
+	OutterGravitySphere->InitSphereRadius(CapsuleRadius * 4.f);
+
+	InnerGravitySphere = CreateDefaultSubobject<USphereComponent>(TEXT("Inner Sphere Component"));
+	InnerGravitySphere->SetupAttachment(GetRootComponent());
+	InnerGravitySphere->InitSphereRadius(CapsuleRadius + 5.f);
 
 	Ship = nullptr;
 
-	Mass = 1000;
+	Mass = 100;
 	GravitationalConstant = 0.000001f;
 	BodyMass = Mass * GravitationalConstant;
 }
@@ -52,8 +56,11 @@ void ACelestialBody::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	GravitySphere->OnComponentBeginOverlap.AddDynamic(this, &ACelestialBody::OnOverlapBegin);
-	GravitySphere->OnComponentEndOverlap.AddDynamic(this, &ACelestialBody::OnOverlapEnd);
+	OutterGravitySphere->OnComponentBeginOverlap.AddDynamic(this, &ACelestialBody::OnOverlapBeginOutterSphere);
+	OutterGravitySphere->OnComponentEndOverlap.AddDynamic(this, &ACelestialBody::OnOverlapEndOutterSphere);
+
+	InnerGravitySphere->OnComponentBeginOverlap.AddDynamic(this, &ACelestialBody::OnOverlapBeginInnerSphere);
+	InnerGravitySphere->OnComponentEndOverlap.AddDynamic(this, &ACelestialBody::OnOverlapEndInnerSphere);
 }
 
 // Called every frame
@@ -61,38 +68,78 @@ void ACelestialBody::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (bOverlappingShip) {
+	if (Ship && bOverlappingShip) {
 		FVector A = GetActorLocation();
 		FVector B = Ship->GetActorLocation();
 		FVector Velocity = (A - B);
+
+		//UE_LOG(LogTemp, Warning, TEXT("VELOCITY IS %f %f %f"), Velocity.X, Velocity.Y, Velocity.Z);
+		//UE_LOG(LogTemp, Warning, TEXT("VELOCITY SIZE IS %f"), Velocity.Size());
+
 		Velocity.Normalize();
 		FVector CurrentShipVelocity = Ship->GetCurrentAddedVelocity();
-		CurrentShipVelocity += (Velocity * BodyMass);
+		CurrentShipVelocity -= (Velocity * BodyMass);
 		Ship->SetCurrentAddedVelocity(CurrentShipVelocity);
+
+		//if (Velocity.Size() > CapsuleRadius + 50.f) {
+			
+		//}
+		//else {
+		//	UE_LOG(LogTemp, Warning, TEXT("Close enough"));
+		//	Ship->SetCurrentAddedVelocity(FVector(0.f, 0.f, 0.f));
+		//}
 	}
 
 }
 
-void ACelestialBody::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
+void ACelestialBody::OnOverlapBeginOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
 
 	if (OtherActor) {
 		AShip* OverlappedShip = Cast<AShip>(OtherActor);
 		if (OverlappedShip) {
-			UE_LOG(LogTemp, Warning, TEXT("Super:: OnOverlapBegin"));
+			UE_LOG(LogTemp, Warning, TEXT("Outter:: OnOverlapBegin"));
 			Ship = OverlappedShip;
 			bOverlappingShip = true;
 		}
 	}
 }
 
-void ACelestialBody::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex){
+void ACelestialBody::OnOverlapEndOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex){
 
 	if (OtherActor) {
 		AShip* OverlappedShip = Cast<AShip>(OtherActor);
 		if (OverlappedShip) {
-			UE_LOG(LogTemp, Warning, TEXT("Super:: OnOverlapEnd"));
+			UE_LOG(LogTemp, Warning, TEXT("Outter:: OnOverlapEnd"));
+			OverlappedShip->SetCurrentAddedVelocity(FVector(0.f, 0.f, 0.f));
 			Ship = nullptr;
 			bOverlappingShip = false;
+		}
+	}
+}
+
+
+void ACelestialBody::OnOverlapBeginInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	
+	if (OtherActor) {
+		AShip* OverlappedShip = Cast<AShip>(OtherActor);
+		if (OverlappedShip) {
+			UE_LOG(LogTemp, Warning, TEXT("Inner:: OnOverlapBegin"));
+			OverlappedShip->SetCurrentAddedVelocity(FVector(0.f, 0.f, 0.f));
+			Ship = nullptr;
+			bOverlappingShip = false;
+		}
+	}
+	
+}
+
+void ACelestialBody::OnOverlapEndInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
+	
+	if (OtherActor) {
+		AShip* OverlappedShip = Cast<AShip>(OtherActor);
+		if (OverlappedShip) {
+			UE_LOG(LogTemp, Warning, TEXT("Inner:: OnOverlapEnd"));
+			Ship = OverlappedShip;
+			bOverlappingShip = true;
 		}
 	}
 }
