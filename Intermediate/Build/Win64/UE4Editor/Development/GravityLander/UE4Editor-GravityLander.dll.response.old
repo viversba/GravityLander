@@ -47,6 +47,8 @@
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\Ship.gen.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\ShipPawnMovementComponent.gen.cpp.obj"
 "C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\Default.rc2.res"
+"C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Development\Slate\UE4Editor-Slate.lib"
+"C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Development\SlateCore\UE4Editor-SlateCore.lib"
 "C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Development\Engine\UE4Editor-Engine.lib"
 "C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Development\Core\UE4Editor-Core.lib"
 "C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Development\CoreUObject\UE4Editor-CoreUObject.lib"

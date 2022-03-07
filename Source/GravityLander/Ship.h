@@ -11,7 +11,7 @@ enum class EBoostStatus : uint8 {
 	EBS_Normal UMETA(DisplayName = "Normal"),
 	EBS_Pressed UMETA(DisplayName = "Pressed"),
 
-	EBS_MAX UMETA(DisplayName = "DefauktMAX"),
+	EBS_MAX UMETA(DisplayName = "DefaultMAX"),
 };
 
 UCLASS()

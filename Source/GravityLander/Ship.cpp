@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "ShipPawnMovementComponent.h"
+#include "UObject/NameTypes.h"
 
 // Sets default values
 AShip::AShip()
@@ -58,16 +59,18 @@ void AShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	BoxComponent->SetAllPhysicsLinearVelocity(-CurrentAddedVelocity, true);
+	FName name;
+	BoxComponent->AddForce(-CurrentAddedVelocity, name, true);
 
 	if (bSpaceKeyPressed) {
 		
 		float DeltaFuel = FuelDrainRate * DeltaTime;
 		if (Fuel - DeltaFuel >= 0) {
 			Fuel -= DeltaFuel;
+
+		UE_LOG(LogTemp, Warning, TEXT("%f"), Fuel);
 		}
 	}
-	//UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), CurrentAddedVelocity.X, CurrentAddedVelocity.Y, CurrentAddedVelocity.Z);
 }
 
 // Called to bind functionality to input
@@ -92,12 +95,10 @@ void AShip::RotateRight(float value) {
 
 void AShip::Boost(float value) {
 
-	if (MovementComponent != nullptr && value != 0.0f && Fuel > 0.f) {
+	if (MovementComponent != nullptr && value != 0.0f && Fuel > 0.05f) {
 		
-		//float DeltaFuel = FuelDrainRate * 
-		FVector Up = GetActorUpVector();
-		//FVector AddedVelocity = Up + CurrentAddedVelocity;
-		BoxComponent->SetAllPhysicsLinearVelocity(Up, true);
+		FVector Up = GetActorUpVector() * 10000;
+		BoxComponent->AddForce(Up);
 	}
 }
 

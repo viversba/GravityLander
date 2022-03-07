@@ -4,7 +4,11 @@
 #include "CelestialBody.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
+#include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include "Math/UnrealMathUtility.h"
 #include "Ship.h"
+#include "LandingPlatform.h"
 
 // Sets default values
 ACelestialBody::ACelestialBody()
@@ -12,7 +16,7 @@ ACelestialBody::ACelestialBody()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CapsuleRadius = 100.f;
+	CapsuleRadius = 2000.f;
 	CapsuleHalfHeight = CapsuleRadius + 50.f;
 
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Box Component"));
@@ -21,6 +25,7 @@ ACelestialBody::ACelestialBody()
 	CapsuleComponent->SetupAttachment(GetRootComponent());
 	CapsuleComponent->SetCollisionProfileName(TEXT("Actor"));
 	CapsuleComponent->SetCapsuleRadius(CapsuleRadius);
+	CapsuleComponent->AddLocalRotation(FQuat::MakeFromEuler(FVector(0.f, 90.f, 0.f)));
 	CapsuleComponent->SetCapsuleHalfHeight(CapsuleHalfHeight);
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
@@ -36,18 +41,10 @@ ACelestialBody::ACelestialBody()
 		MeshComponent->SetWorldScale3D(FVector(SphereScale, SphereScale, SphereScale));
 	}
 
-	OutterGravitySphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Component"));
-	OutterGravitySphere->SetupAttachment(GetRootComponent());
-	OutterGravitySphere->InitSphereRadius(CapsuleRadius * 4.f);
-
-	InnerGravitySphere = CreateDefaultSubobject<USphereComponent>(TEXT("Inner Sphere Component"));
-	InnerGravitySphere->SetupAttachment(GetRootComponent());
-	InnerGravitySphere->InitSphereRadius(CapsuleRadius + 5.f);
-
 	Ship = nullptr;
 
 	Mass = 100;
-	GravitationalConstant = 0.000001f;
+	GravitationalConstant = 0.00001f;
 	BodyMass = Mass * GravitationalConstant;
 }
 
@@ -55,12 +52,27 @@ ACelestialBody::ACelestialBody()
 void ACelestialBody::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	OutterGravitySphere->OnComponentBeginOverlap.AddDynamic(this, &ACelestialBody::OnOverlapBeginOutterSphere);
-	OutterGravitySphere->OnComponentEndOverlap.AddDynamic(this, &ACelestialBody::OnOverlapEndOutterSphere);
 
-	InnerGravitySphere->OnComponentBeginOverlap.AddDynamic(this, &ACelestialBody::OnOverlapBeginInnerSphere);
-	InnerGravitySphere->OnComponentEndOverlap.AddDynamic(this, &ACelestialBody::OnOverlapEndInnerSphere);
+	APawn* Pawn= UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+
+	AShip* FoundShip = Cast<AShip>(Pawn);
+	if (FoundShip) {
+		Ship = FoundShip;
+
+		int32 Angle1 = 135, Angle2 = 244;
+		FVector SpawnPos1, SpawnPos2;
+		FRotator SpawnRotation1, SpawnRotation2;
+		GetSpawnPoint(Angle1, SpawnPos1, SpawnRotation1);
+		GetSpawnPoint(Angle2, SpawnPos2, SpawnRotation2);
+
+		ALandingPlatform* StartPlatform = SpawnLandingPlatform(SpawnPos1, SpawnRotation1, 0);
+		ALandingPlatform* FinishPlatform = SpawnLandingPlatform(SpawnPos2, SpawnRotation2, 1);
+
+		if (StartPlatform) {
+			Ship->SetActorLocation(StartPlatform->GetActorLocation() + FVector(0.f, 100.f, 100.f));
+
+		}
+	}
 }
 
 // Called every frame
@@ -68,79 +80,41 @@ void ACelestialBody::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (Ship && bOverlappingShip) {
+	if (Ship) {
 		FVector A = GetActorLocation();
 		FVector B = Ship->GetActorLocation();
-		FVector Velocity = (A - B);
-
-		//UE_LOG(LogTemp, Warning, TEXT("VELOCITY IS %f %f %f"), Velocity.X, Velocity.Y, Velocity.Z);
-		//UE_LOG(LogTemp, Warning, TEXT("VELOCITY SIZE IS %f"), Velocity.Size());
-
-		Velocity.Normalize();
+		FVector Distance = (A - B);
+		Distance.Normalize();
 		FVector CurrentShipVelocity = Ship->GetCurrentAddedVelocity();
-		CurrentShipVelocity -= (Velocity * BodyMass);
+		CurrentShipVelocity -= (Distance * BodyMass * (1/FMath::Pow(Distance.Size(), 2)));
 		Ship->SetCurrentAddedVelocity(CurrentShipVelocity);
-
-		//if (Velocity.Size() > CapsuleRadius + 50.f) {
-			
-		//}
-		//else {
-		//	UE_LOG(LogTemp, Warning, TEXT("Close enough"));
-		//	Ship->SetCurrentAddedVelocity(FVector(0.f, 0.f, 0.f));
-		//}
 	}
 
 }
 
-void ACelestialBody::OnOverlapBeginOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
+void ACelestialBody::GetSpawnPoint(int32 Angle, FVector &Position, FRotator &Rotator){
 
-	if (OtherActor) {
-		AShip* OverlappedShip = Cast<AShip>(OtherActor);
-		if (OverlappedShip) {
-			UE_LOG(LogTemp, Warning, TEXT("Outter:: OnOverlapBegin"));
-			Ship = OverlappedShip;
-			bOverlappingShip = true;
-		}
-	}
+	FVector CelestialBodyLocation = GetActorLocation();
+	float angleRad = (Angle* PI)/180;
+	float YPosition, ZPosition;
+	FMath::SinCos(&YPosition, &ZPosition, angleRad);
+
+	Position = FVector(0.f, CapsuleRadius * ZPosition * 2, CapsuleRadius * YPosition * 2) + CelestialBodyLocation;
+	Rotator = FRotator::MakeFromEuler(FVector(Angle, 0.f, 0.f));
 }
 
-void ACelestialBody::OnOverlapEndOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex){
+ALandingPlatform* ACelestialBody::SpawnLandingPlatform(const FVector& Location, const FRotator& Rotator, int32 PlatformType) {
 
-	if (OtherActor) {
-		AShip* OverlappedShip = Cast<AShip>(OtherActor);
-		if (OverlappedShip) {
-			UE_LOG(LogTemp, Warning, TEXT("Outter:: OnOverlapEnd"));
-			OverlappedShip->SetCurrentAddedVelocity(FVector(0.f, 0.f, 0.f));
-			Ship = nullptr;
-			bOverlappingShip = false;
-		}
+	UWorld* World = GetWorld();
+	FActorSpawnParameters SpawnParams;
+	EPlatformType Type = PlatformType == 0 ? EPlatformType::EPT_Start : EPlatformType::EPT_Finish;
+
+	if (World) {
+		ALandingPlatform* Platform = World->SpawnActor<ALandingPlatform>(ALandingPlatform::StaticClass(), Location, Rotator, SpawnParams);
+		Platform->SetPlatformType(Type);
+		return Platform;
+	}
+	else {
+		return nullptr;
 	}
 }
-
-
-void ACelestialBody::OnOverlapBeginInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	
-	if (OtherActor) {
-		AShip* OverlappedShip = Cast<AShip>(OtherActor);
-		if (OverlappedShip) {
-			UE_LOG(LogTemp, Warning, TEXT("Inner:: OnOverlapBegin"));
-			OverlappedShip->SetCurrentAddedVelocity(FVector(0.f, 0.f, 0.f));
-			Ship = nullptr;
-			bOverlappingShip = false;
-		}
-	}
-	
-}
-
-void ACelestialBody::OnOverlapEndInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
-	
-	if (OtherActor) {
-		AShip* OverlappedShip = Cast<AShip>(OtherActor);
-		if (OverlappedShip) {
-			UE_LOG(LogTemp, Warning, TEXT("Inner:: OnOverlapEnd"));
-			Ship = OverlappedShip;
-			bOverlappingShip = true;
-		}
-	}
-}
-

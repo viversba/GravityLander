@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\GravityLander.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{9516BCC1-E94A-49E0-A908-54ECC8130EFC}</UniqueIdentifier>
+      <UniqueIdentifier>{3DF4853D-4925-4526-89B8-F4D40477F114}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\GravityLander.Target.cs">
       <Filter>Source</Filter>
@@ -14,7 +14,7 @@
     <None Include="..\..\.gitattributes" />
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{7631484C-9A34-460B-BC09-0A7926E84D86}</UniqueIdentifier>
+      <UniqueIdentifier>{C6E159BB-420A-40C9-84DC-A773FBA6FA2F}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -29,7 +29,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\GravityLander">
-      <UniqueIdentifier>{C264F740-8417-4357-B7AB-5C9749FCBC10}</UniqueIdentifier>
+      <UniqueIdentifier>{519B6575-F6D4-4AC4-8F1F-9B059445CABE}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\GravityLander\CelestialBody.cpp">
       <Filter>Source\GravityLander</Filter>
@@ -50,6 +50,12 @@
       <Filter>Source\GravityLander</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\GravityLander\GravityLanderGameModeBase.h">
+      <Filter>Source\GravityLander</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GravityLander\LandingPlatform.cpp">
+      <Filter>Source\GravityLander</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GravityLander\LandingPlatform.h">
       <Filter>Source\GravityLander</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\GravityLander\MainPlayerController.cpp">

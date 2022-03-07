@@ -42,14 +42,14 @@ public:
 	/**
 	* @brief Sphere that will influence gravitational behaviour of the ship
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
-	class USphereComponent* OutterGravitySphere;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
+	//class USphereComponent* OutterGravitySphere;
 
 	/**
 	* @brief Inner bound of gravitational influence of the celestial body
 	*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
-	class USphereComponent* InnerGravitySphere;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
+	//class USphereComponent* InnerGravitySphere;
 
 	/**
 	* @brief Capsule half height
@@ -91,16 +91,22 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
-	virtual void OnOverlapBeginOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
+	void GetSpawnPoint(int32 Angle, struct FVector &Position, struct FRotator &Rotator);
+
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
+	class ALandingPlatform* SpawnLandingPlatform(const FVector& Location, const FRotator& Rotator, int32 PlatformType);
+
+	//UFUNCTION()
+	//virtual void OnOverlapBeginOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
-	UFUNCTION()
-	virtual void OnOverlapEndOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	//UFUNCTION()
+	//virtual void OnOverlapEndOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	UFUNCTION()
-	virtual void OnOverlapBeginInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	//UFUNCTION()
+	//virtual void OnOverlapBeginInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	UFUNCTION()
-	virtual void OnOverlapEndInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	//UFUNCTION()
+	//virtual void OnOverlapEndInnerSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 };

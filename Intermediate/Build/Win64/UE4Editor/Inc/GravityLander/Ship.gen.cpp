@@ -40,7 +40,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		return EBoostStatus_StaticEnum();
 	}
 	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EBoostStatus(EBoostStatus_StaticEnum, TEXT("/Script/GravityLander"), TEXT("EBoostStatus"), false, nullptr, nullptr);
-	uint32 Get_Z_Construct_UEnum_GravityLander_EBoostStatus_Hash() { return 222144194U; }
+	uint32 Get_Z_Construct_UEnum_GravityLander_EBoostStatus_Hash() { return 3251488562U; }
 	UEnum* Z_Construct_UEnum_GravityLander_EBoostStatus()
 	{
 #if WITH_HOT_RELOAD
@@ -59,7 +59,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #if WITH_METADATA
 			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
 				{ "BlueprintType", "true" },
-				{ "EBS_MAX.DisplayName", "DefauktMAX" },
+				{ "EBS_MAX.DisplayName", "DefaultMAX" },
 				{ "EBS_MAX.Name", "EBoostStatus::EBS_MAX" },
 				{ "EBS_Normal.DisplayName", "Normal" },
 				{ "EBS_Normal.Name", "EBoostStatus::EBS_Normal" },
