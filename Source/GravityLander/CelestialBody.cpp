@@ -6,6 +6,7 @@
 #include "Components/SphereComponent.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Ship.h"
 #include "LandingPlatform.h"
@@ -44,7 +45,7 @@ ACelestialBody::ACelestialBody()
 	Ship = nullptr;
 
 	Mass = 100;
-	GravitationalConstant = 0.00001f;
+	GravitationalConstant = 0.0001f;
 	BodyMass = Mass * GravitationalConstant;
 }
 
@@ -59,7 +60,7 @@ void ACelestialBody::BeginPlay()
 	if (FoundShip) {
 		Ship = FoundShip;
 
-		int32 Angle1 = 135, Angle2 = 244;
+		int32 Angle1 = 20, Angle2 = 45;
 		FVector SpawnPos1, SpawnPos2;
 		FRotator SpawnRotation1, SpawnRotation2;
 		GetSpawnPoint(Angle1, SpawnPos1, SpawnRotation1);
@@ -69,8 +70,21 @@ void ACelestialBody::BeginPlay()
 		ALandingPlatform* FinishPlatform = SpawnLandingPlatform(SpawnPos2, SpawnRotation2, 1);
 
 		if (StartPlatform) {
-			Ship->SetActorLocation(StartPlatform->GetActorLocation() + FVector(0.f, 100.f, 100.f));
 
+			FVector NormStartPlatformPos = (SpawnPos1 - GetActorLocation());
+			NormStartPlatformPos.Normalize();
+			NormStartPlatformPos.X = 0.f;
+			UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), NormStartPlatformPos.X, NormStartPlatformPos.Y, NormStartPlatformPos.Z);
+			FVector Start = NormStartPlatformPos * (StartPlatform->Size * 83.f);
+			NormStartPlatformPos *= (StartPlatform->Size * 100.f);
+			UE_LOG(LogTemp, Warning, TEXT("%f"), StartPlatform->Size);
+			UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), NormStartPlatformPos.X, NormStartPlatformPos.Y, NormStartPlatformPos.Z);
+
+			UWorld* World = GetWorld();
+			UKismetSystemLibrary::DrawDebugLine(World, Start, NormStartPlatformPos, FLinearColor::Blue, 5000, 5);
+			
+			Ship->SetActorLocation(Start);
+			//Ship->SetActorRotation(SpawnRotation1);
 		}
 	}
 }
@@ -99,7 +113,7 @@ void ACelestialBody::GetSpawnPoint(int32 Angle, FVector &Position, FRotator &Rot
 	float YPosition, ZPosition;
 	FMath::SinCos(&YPosition, &ZPosition, angleRad);
 
-	Position = FVector(0.f, CapsuleRadius * ZPosition * 2, CapsuleRadius * YPosition * 2) + CelestialBodyLocation;
+	Position = FVector(0.f, CapsuleRadius * YPosition, CapsuleRadius * ZPosition) + CelestialBodyLocation;
 	Rotator = FRotator::MakeFromEuler(FVector(Angle, 0.f, 0.f));
 }
 
@@ -112,6 +126,7 @@ ALandingPlatform* ACelestialBody::SpawnLandingPlatform(const FVector& Location, 
 	if (World) {
 		ALandingPlatform* Platform = World->SpawnActor<ALandingPlatform>(ALandingPlatform::StaticClass(), Location, Rotator, SpawnParams);
 		Platform->SetPlatformType(Type);
+		Platform->SetMaterial();
 		return Platform;
 	}
 	else {

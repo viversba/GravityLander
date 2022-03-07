@@ -54,16 +54,16 @@ public:
 	class UCameraComponent* PlayerCamera;
 
 	/**
-	* @brief Movement Component
-	*/
-	UPROPERTY(VisibleAnywhere, Category = "Movement")
-	class UPawnMovementComponent* MovementComponent;
-
-	/**
 	* @brief Velocity component that accounts for gravitational influence of celestial bodies
 	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	FVector CurrentAddedVelocity;
+	FVector CurrentAddedForce;
+
+	/**
+	* @brief Root component of the ship
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	UBoxComponent* BottomCollider;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Ship Stats")
 	float Fuel;
@@ -93,8 +93,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual UPawnMovementComponent* GetMovementComponent() const override;
-
 	void RotateRight(float value);
 
 	void Boost(float value);
@@ -102,6 +100,9 @@ public:
 	void SpaceKeyDown();
 
 	void SpaceKeyUp();
+
+	UFUNCTION()
+	virtual void OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	FORCEINLINE UCameraComponent* GetCameraComponent() { return PlayerCamera; }
 	FORCEINLINE void SetCameraComponent(UCameraComponent* InCamera) { PlayerCamera = InCamera; }
@@ -113,6 +114,7 @@ public:
 	FORCEINLINE UCapsuleComponent* GetCapsuleComponent() { return CapsuleComponent; }
 	FORCEINLINE void SetCapsuleComponent(UCapsuleComponent* InCapsule) { CapsuleComponent = InCapsule; }
 
-	FORCEINLINE FVector GetCurrentAddedVelocity() { return CurrentAddedVelocity; }
-	FORCEINLINE void SetCurrentAddedVelocity(FVector Velocity) { CurrentAddedVelocity = Velocity; }
+	FORCEINLINE FVector GetCurrentAddedVelocity() { return CurrentAddedForce; }
+	FORCEINLINE void SetCurrentAddedVelocity(FVector Velocity) { CurrentAddedForce = Velocity; }
+
 };

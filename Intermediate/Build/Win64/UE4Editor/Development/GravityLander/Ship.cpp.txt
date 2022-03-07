@@ -21,3 +21,5 @@ C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\In
 C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\NavMovementComponent.generated.h
 C:\Program Files\Epic Games\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\PawnMovementComponent.generated.h
 C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Inc\GravityLander\ShipPawnMovementComponent.generated.h
+C:\Users\nicol\Documents\Unreal Projects\GravityLander\Source\GravityLander\LandingPlatform.h
+C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Inc\GravityLander\LandingPlatform.generated.h

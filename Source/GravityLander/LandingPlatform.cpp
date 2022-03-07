@@ -4,6 +4,7 @@
 #include "LandingPlatform.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ALandingPlatform::ALandingPlatform()
@@ -11,13 +12,13 @@ ALandingPlatform::ALandingPlatform()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Size = 25.f;
+	Size = 26.f;
 	float Scale = Size / 50.f;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
 	SetRootComponent(BoxComponent);
 	BoxComponent->SetupAttachment(GetRootComponent());
-	BoxComponent->SetCollisionProfileName(TEXT("Pawn"));
+	BoxComponent->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 	BoxComponent->SetBoxExtent(FVector(Size, Size, Size));
 
 	MeshComponent= CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
@@ -29,6 +30,14 @@ ALandingPlatform::ALandingPlatform()
 		MeshComponent->SetStaticMesh(MeshComponentAsset.Object);
 		MeshComponent->SetRelativeLocation(FVector(0.f, 0.f, -Size));
 		MeshComponent->SetWorldScale3D(FVector(Scale, Scale, Scale));
+	}
+
+	static ConstructorHelpers::FObjectFinder<UMaterial> StartMaterial(TEXT("Material'/Game/StarterContent/Materials/M_Wood_Oak.M_Wood_Oak'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial> FinishMaterial(TEXT("Material'/Game/StarterContent/Materials/M_Metal_Gold.M_Metal_Gold'"));
+
+	if (StartMaterial.Succeeded() && FinishMaterial.Succeeded()) {
+		StartPlatformMaterial = StartMaterial.Object;
+		FinishPlatformMaterial = FinishMaterial.Object;
 	}
 }
 
@@ -47,6 +56,20 @@ void ALandingPlatform::Tick(float DeltaTime)
 
 void ALandingPlatform::SetPlatformType(EPlatformType Type) {
 	PlatformType = Type;
+}
+
+void ALandingPlatform::SetMaterial() {
+	
+	if (PlatformType == EPlatformType::EPT_Start) {
+		if (StartPlatformMaterial) {
+			MeshComponent->SetMaterial(0, StartPlatformMaterial);
+		}
+	}
+	else if (PlatformType == EPlatformType::EPT_Finish) {
+		if (FinishPlatformMaterial) {
+			MeshComponent->SetMaterial(0, FinishPlatformMaterial);
+		}
+	}
 }
 
 void ALandingPlatform::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {

@@ -41,6 +41,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platform Type")
 	EPlatformType PlatformType;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Materials")
+	class UMaterial* StartPlatformMaterial;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Materials")
+	UMaterial* FinishPlatformMaterial;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Size")
 	float Size;
 
@@ -59,4 +65,6 @@ public:
 	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	void SetPlatformType(EPlatformType PlatformType);
+
+	void SetMaterial();
 };

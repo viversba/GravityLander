@@ -21,7 +21,7 @@ void EmptyLinkFunctionForGeneratedCodeGravityLander_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0x11437F30,
+				0xF63A3C0F,
 				0xFD0A8FE6,
 				METADATA_PARAMS(nullptr, 0)
 			};

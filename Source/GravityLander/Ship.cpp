@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "ShipPawnMovementComponent.h"
 #include "UObject/NameTypes.h"
+#include "LandingPlatform.h"
 
 // Sets default values
 AShip::AShip()
@@ -20,6 +21,8 @@ AShip::AShip()
 
 	BoxComponent->SetupAttachment(GetRootComponent());
 	BoxComponent->SetCollisionProfileName(TEXT("Pawn"));
+	BoxComponent->SetSimulatePhysics(true);
+	BoxComponent->SetEnableGravity(false);
 
 	CameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArm"));
 	CameraSpringArm->SetupAttachment(GetRootComponent());
@@ -27,17 +30,20 @@ AShip::AShip()
 
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera"));
 	PlayerCamera->SetupAttachment(CameraSpringArm, USpringArmComponent::SocketName);
-	PlayerCamera->bUsePawnControlRotation = false;
+	PlayerCamera->bUsePawnControlRotation = true;
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
 	MeshComponent->SetupAttachment(GetRootComponent());
 
-	MovementComponent = CreateDefaultSubobject<UShipPawnMovementComponent>(TEXT("Movement Component"));
-	MovementComponent->UpdatedComponent = RootComponent;
+	BottomCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("Bottom Collider"));
+	BottomCollider->SetupAttachment(GetRootComponent());
+	BottomCollider->SetCollisionProfileName(TEXT("Pawn"));
+	BoxComponent->SetSimulatePhysics(false);
+	BoxComponent->SetEnableGravity(false);
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
-	CurrentAddedVelocity = FVector(0.f, 0.f, 0.f);
+	CurrentAddedForce = FVector(0.f, 0.f, 0.f);
 
 	Fuel = 100.f;
 	MaxFuel = 100.f;
@@ -52,6 +58,7 @@ void AShip::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	BottomCollider->OnComponentBeginOverlap.AddDynamic(this, &AShip::OnOverlapBeginBottomBox);
 }
 
 // Called every frame
@@ -60,7 +67,7 @@ void AShip::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FName name;
-	BoxComponent->AddForce(-CurrentAddedVelocity, name, true);
+	BoxComponent->AddForce(-CurrentAddedForce, name, true);
 
 	if (bSpaceKeyPressed) {
 		
@@ -68,7 +75,7 @@ void AShip::Tick(float DeltaTime)
 		if (Fuel - DeltaFuel >= 0) {
 			Fuel -= DeltaFuel;
 
-		UE_LOG(LogTemp, Warning, TEXT("%f"), Fuel);
+		//UE_LOG(LogTemp, Warning, TEXT("%f"), Fuel);
 		}
 	}
 }
@@ -88,14 +95,14 @@ void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AShip::RotateRight(float value) {
 
-	if (MovementComponent != nullptr && value != 0.0f) {
-		BoxComponent->SetAllPhysicsAngularVelocityInRadians(FVector(value*0.01f, 0.f, 0.f), true);
+	if (value != 0.0f) {
+		BoxComponent->SetAllPhysicsAngularVelocityInRadians(FVector(value*0.04f, 0.f, 0.f), true);
 	}
 }
 
 void AShip::Boost(float value) {
 
-	if (MovementComponent != nullptr && value != 0.0f && Fuel > 0.05f) {
+	if (value != 0.0f && Fuel > 0.05f) {
 		
 		FVector Up = GetActorUpVector() * 10000;
 		BoxComponent->AddForce(Up);
@@ -112,6 +119,13 @@ void AShip::SpaceKeyUp() {
 	bSpaceKeyPressed = false;
 }
 
-UPawnMovementComponent* AShip::GetMovementComponent() const {
-	return MovementComponent;
+void AShip::OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	if (OtherActor) {
+		ALandingPlatform* Platform = Cast<ALandingPlatform>(OtherActor);
+		if (Platform) {
+			if (Platform->PlatformType == EPlatformType::EPT_Finish) {
+				UE_LOG(LogTemp, Warning, TEXT("FINISHED STUFF"));
+			}
+		}
+	}
 }

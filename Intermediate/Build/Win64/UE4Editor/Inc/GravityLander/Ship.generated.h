@@ -8,14 +8,25 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class UPrimitiveComponent;
+class AActor;
+struct FHitResult;
 #ifdef GRAVITYLANDER_Ship_generated_h
 #error "Ship.generated.h already included, missing '#pragma once' in Ship.h"
 #endif
 #define GRAVITYLANDER_Ship_generated_h
 
 #define GravityLander_Source_GravityLander_Ship_h_20_SPARSE_DATA
-#define GravityLander_Source_GravityLander_Ship_h_20_RPC_WRAPPERS
-#define GravityLander_Source_GravityLander_Ship_h_20_RPC_WRAPPERS_NO_PURE_DECLS
+#define GravityLander_Source_GravityLander_Ship_h_20_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execOnOverlapBeginBottomBox);
+
+
+#define GravityLander_Source_GravityLander_Ship_h_20_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execOnOverlapBeginBottomBox);
+
+
 #define GravityLander_Source_GravityLander_Ship_h_20_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAShip(); \
