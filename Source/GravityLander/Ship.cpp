@@ -7,6 +7,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "CelestialBody.h"
+#include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 #include "ShipPawnMovementComponent.h"
 #include "UObject/NameTypes.h"
 #include "LandingPlatform.h"
@@ -42,6 +44,8 @@ AShip::AShip()
 	BoxComponent->SetSimulatePhysics(false);
 	BoxComponent->SetEnableGravity(false);
 
+	CelestialBody = nullptr;
+
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	CurrentAddedForce = FVector(0.f, 0.f, 0.f);
@@ -60,6 +64,16 @@ void AShip::BeginPlay()
 	Super::BeginPlay();
 	
 	BottomCollider->OnComponentBeginOverlap.AddDynamic(this, &AShip::OnOverlapBeginBottomBox);
+
+	UWorld* World = GetWorld();
+
+	AActor* Actor = UGameplayStatics::GetActorOfClass(World, ACelestialBody::StaticClass());
+	if (Actor) {
+		ACelestialBody* Body = Cast<ACelestialBody>(Actor);
+		if (Body) {
+			CelestialBody = Body;
+		}
+	}
 }
 
 // Called every frame
@@ -126,6 +140,8 @@ void AShip::OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AA
 		if (Platform) {
 			if (Platform->PlatformType == EPlatformType::EPT_Finish) {
 				Score += 1;
+				CelestialBody->NextLevel();
+				UE_LOG(LogTemp, Warning, TEXT("%d"), Score);
 			}
 		}
 	}

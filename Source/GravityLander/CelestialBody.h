@@ -63,6 +63,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Ship")
 	class AShip* Ship;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platforms")
+	class ALandingPlatform* CurrentStartPlatform;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platforms")
+	ALandingPlatform* CurrentFinishPlatform;
+
 private:
 
 	/**
@@ -84,6 +90,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Spawning")
 	class ALandingPlatform* SpawnLandingPlatform(const FVector& Location, const FRotator& Rotator, int32 PlatformType);
+
+	void GameOver();
+
+	void NextLevel();
 
 	//UFUNCTION()
 	//virtual void OnOverlapBeginOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

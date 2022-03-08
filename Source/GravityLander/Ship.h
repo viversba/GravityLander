@@ -65,6 +65,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 	UBoxComponent* BottomCollider;
 
+	/**
+	* @brief Reference to the Celestial Body element
+	*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Celestial Body")
+	class ACelestialBody* CelestialBody;
+
 	UPROPERTY(BlueprintReadWrite, Category = "Ship Stats")
 	float Fuel;
 

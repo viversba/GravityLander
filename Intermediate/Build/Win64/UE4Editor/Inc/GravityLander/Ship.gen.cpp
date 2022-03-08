@@ -27,6 +27,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
+	GRAVITYLANDER_API UClass* Z_Construct_UClass_ACelestialBody_NoRegister();
 // End Cross Module References
 	static UEnum* EBoostStatus_StaticEnum()
 	{
@@ -229,6 +230,10 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_BottomCollider;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CelestialBody_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_CelestialBody;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Fuel_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Fuel;
@@ -246,9 +251,9 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #endif
 		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_BoostStatus;
 #if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_score_MetaData[];
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Score_MetaData[];
 #endif
-		static const UE4CodeGen_Private::FIntPropertyParams NewProp_score;
+		static const UE4CodeGen_Private::FIntPropertyParams NewProp_Score;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -339,6 +344,15 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_BottomCollider = { "BottomCollider", nullptr, (EPropertyFlags)0x001000000008000d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, BottomCollider), Z_Construct_UClass_UBoxComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_BottomCollider_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_BottomCollider_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_CelestialBody_MetaData[] = {
+		{ "Category", "Celestial Body" },
+		{ "Comment", "/**\n\x09* @brief Reference to the Celestial Body element\n\x09*/" },
+		{ "ModuleRelativePath", "Ship.h" },
+		{ "ToolTip", "@brief Reference to the Celestial Body element" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_CelestialBody = { "CelestialBody", nullptr, (EPropertyFlags)0x0010000000020005, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, CelestialBody), Z_Construct_UClass_ACelestialBody_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_CelestialBody_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_CelestialBody_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_Fuel_MetaData[] = {
 		{ "Category", "Ship Stats" },
 		{ "ModuleRelativePath", "Ship.h" },
@@ -368,12 +382,12 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #endif
 	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus = { "BoostStatus", nullptr, (EPropertyFlags)0x0010000000000014, UE4CodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, BoostStatus), Z_Construct_UEnum_GravityLander_EBoostStatus, METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_MetaData)) };
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_score_MetaData[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_Score_MetaData[] = {
 		{ "Category", "Ship Stats" },
 		{ "ModuleRelativePath", "Ship.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_score = { "score", nullptr, (EPropertyFlags)0x0010000000000004, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, score), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_score_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_score_MetaData)) };
+	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_Score = { "Score", nullptr, (EPropertyFlags)0x0010000000000004, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, Score), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_Score_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_Score_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AShip_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MeshComponent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CapsuleComponent,
@@ -382,12 +396,13 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_PlayerCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CurrentAddedForce,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_BottomCollider,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CelestialBody,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_Fuel,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_Underlying,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_score,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_Score,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AShip_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<AShip>::IsAbstract,
@@ -416,7 +431,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AShip, 2426638497);
+	IMPLEMENT_CLASS(AShip, 3333660169);
 	template<> GRAVITYLANDER_API UClass* StaticClass<AShip>()
 	{
 		return AShip::StaticClass();

@@ -33,6 +33,9 @@ ACelestialBody::ACelestialBody()
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
 	MeshComponent->SetupAttachment(GetRootComponent());
 
+	CurrentStartPlatform = nullptr;
+	CurrentFinishPlatform = nullptr;
+
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshComponentAsset(TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere'"));
 
 	float SphereScale = CapsuleRadius / 50.f;
@@ -60,31 +63,7 @@ void ACelestialBody::BeginPlay()
 	AShip* FoundShip = Cast<AShip>(Pawn);
 	if (FoundShip) {
 		Ship = FoundShip;
-
-		int32 Angle1 = 15, Angle2 = 1;
-		FVector SpawnPos1, SpawnPos2;
-		FRotator SpawnRotation1, SpawnRotation2;
-		GetSpawnPoint(Angle1, SpawnPos1, SpawnRotation1);
-		GetSpawnPoint(Angle2, SpawnPos2, SpawnRotation2);
-
-		ALandingPlatform* StartPlatform = SpawnLandingPlatform(SpawnPos1, SpawnRotation1, 0);
-		ALandingPlatform* FinishPlatform = SpawnLandingPlatform(SpawnPos2, SpawnRotation2, 1);
-
-		if (StartPlatform) {
-
-			FVector NormStartPlatformPos = (SpawnPos1 - GetActorLocation());
-			NormStartPlatformPos.Normalize();
-			NormStartPlatformPos.X = 0.f;
-
-			FVector Start = NormStartPlatformPos * (StartPlatform->Size * 82.f);
-			NormStartPlatformPos *= (StartPlatform->Size * 100.f);
-
-			//UWorld* World = GetWorld();
-			//UKismetSystemLibrary::DrawDebugLine(World, Start, NormStartPlatformPos, FLinearColor::Blue, 5000, 5);
-			
-			Ship->SetActorLocation(Start);
-			Ship->SetActorRotation(SpawnRotation1);
-		}
+		NextLevel();
 	}
 }
 
@@ -130,5 +109,49 @@ ALandingPlatform* ACelestialBody::SpawnLandingPlatform(const FVector& Location, 
 	}
 	else {
 		return nullptr;
+	}
+}
+
+void ACelestialBody::GameOver() {
+
+}
+
+void ACelestialBody::NextLevel() {
+
+	if (CurrentStartPlatform) {
+		CurrentStartPlatform->Destroy();
+		CurrentStartPlatform = nullptr;
+	}
+	if (CurrentFinishPlatform) {
+		CurrentFinishPlatform->Destroy();
+		CurrentFinishPlatform = nullptr;
+	}
+
+	int32 Angle1 = 15, Angle2 = 1;
+	FVector SpawnPos1, SpawnPos2;
+	FRotator SpawnRotation1, SpawnRotation2;
+	GetSpawnPoint(Angle1, SpawnPos1, SpawnRotation1);
+	GetSpawnPoint(Angle2, SpawnPos2, SpawnRotation2);
+
+	ALandingPlatform* StartPlatform = SpawnLandingPlatform(SpawnPos1, SpawnRotation1, 0);
+	ALandingPlatform* FinishPlatform = SpawnLandingPlatform(SpawnPos2, SpawnRotation2, 1);
+
+	if (StartPlatform) {
+
+		FVector NormStartPlatformPos = (SpawnPos1 - GetActorLocation());
+		NormStartPlatformPos.Normalize();
+		NormStartPlatformPos.X = 0.f;
+
+		FVector Start = NormStartPlatformPos * (StartPlatform->Size * 82.f);
+		NormStartPlatformPos *= (StartPlatform->Size * 100.f);
+
+		//UWorld* World = GetWorld();
+		//UKismetSystemLibrary::DrawDebugLine(World, Start, NormStartPlatformPos, FLinearColor::Blue, 5000, 5);
+
+		Ship->SetActorLocation(Start);
+		Ship->SetActorRotation(SpawnRotation1);
+
+		CurrentStartPlatform = StartPlatform;
+		CurrentFinishPlatform = FinishPlatform;
 	}
 }
