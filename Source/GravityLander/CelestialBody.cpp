@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
+#include "GameFramework/PawnMovementComponent.h"
 #include "Ship.h"
 #include "LandingPlatform.h"
 
@@ -48,8 +49,9 @@ ACelestialBody::ACelestialBody()
 
 	Ship = nullptr;
 
-	Mass = 100;
-	GravitationalConstant = 0.0001f;
+	Mass = 1000000;
+	GravitationalConstant = 0.001f;
+	PlatformSpawnPadding = 7;
 	BodyMass = Mass * GravitationalConstant;
 }
 
@@ -77,9 +79,7 @@ void ACelestialBody::Tick(float DeltaTime)
 		FVector B = Ship->GetActorLocation();
 		FVector Distance = (A - B);
 		Distance.Normalize();
-		FVector CurrentShipVelocity = Ship->GetCurrentAddedVelocity();
-		CurrentShipVelocity -= (Distance * BodyMass * (1/FMath::Pow(Distance.Size(), 2)));
-		Ship->SetCurrentAddedVelocity(CurrentShipVelocity);
+		Ship->BoxComponent->AddForce(Distance * BodyMass * (1 / FMath::Pow(Distance.Size(), 2)));
 	}
 
 }
@@ -128,6 +128,34 @@ void ACelestialBody::NextLevel() {
 	}
 
 	int32 Angle1 = 15, Angle2 = 1;
+
+	Angle1 = FMath::RandRange(0,360);
+
+	bool before = FMath::RandBool(); // Determnines if the second paltform will be spawned left or right
+
+	int32 Score = Ship->Score;
+	if (Score < 2) {
+		Angle2 = before ?
+			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 30) :
+			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 30);
+	}
+	else if (Score < 10) {
+		Angle2 = before ?
+			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 70) :
+			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 70);
+	}
+	else if (Score < 15) {
+		Angle2 = before ?
+			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 130) :
+			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 130);
+	}
+	else {
+		Angle2 = before ?
+			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 180) :
+			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 180);
+	}
+
+
 	FVector SpawnPos1, SpawnPos2;
 	FRotator SpawnRotation1, SpawnRotation2;
 	GetSpawnPoint(Angle1, SpawnPos1, SpawnRotation1);
@@ -144,9 +172,6 @@ void ACelestialBody::NextLevel() {
 
 		FVector Start = NormStartPlatformPos * (StartPlatform->Size * 82.f);
 		NormStartPlatformPos *= (StartPlatform->Size * 100.f);
-
-		//UWorld* World = GetWorld();
-		//UKismetSystemLibrary::DrawDebugLine(World, Start, NormStartPlatformPos, FLinearColor::Blue, 5000, 5);
 
 		Ship->SetActorLocation(Start);
 		Ship->SetActorRotation(SpawnRotation1);

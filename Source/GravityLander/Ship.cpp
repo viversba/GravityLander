@@ -82,13 +82,15 @@ void AShip::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FName name;
-	BoxComponent->AddForce(-CurrentAddedForce, name, true);
 
 	if (bSpaceKeyPressed) {
 		
 		float DeltaFuel = FuelDrainRate * DeltaTime;
 		if (Fuel - DeltaFuel >= 0) {
 			Fuel -= DeltaFuel;
+		}
+		else {
+			Fuel = 0.f;
 		}
 	}
 }
@@ -140,8 +142,9 @@ void AShip::OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AA
 		if (Platform) {
 			if (Platform->PlatformType == EPlatformType::EPT_Finish) {
 				Score += 1;
+				Fuel = 100.f;
+				CurrentAddedForce = FVector(0.f, 0.f, 0.f);
 				CelestialBody->NextLevel();
-				UE_LOG(LogTemp, Warning, TEXT("%d"), Score);
 			}
 		}
 	}

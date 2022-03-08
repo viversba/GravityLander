@@ -63,6 +63,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Ship")
 	class AShip* Ship;
 
+	/**
+	* @brief Padding angle for instancing new platforms.
+	*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platforms")
+	int32 PlatformSpawnPadding;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platforms")
 	class ALandingPlatform* CurrentStartPlatform;
 
