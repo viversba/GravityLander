@@ -78,7 +78,7 @@ public:
 	EBoostStatus BoostStatus;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Ship Stats")
-	int32 score;
+	int32 Score;
 
 	bool bSpaceKeyPressed;
 

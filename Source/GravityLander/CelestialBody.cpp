@@ -4,6 +4,7 @@
 #include "CelestialBody.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -60,7 +61,7 @@ void ACelestialBody::BeginPlay()
 	if (FoundShip) {
 		Ship = FoundShip;
 
-		int32 Angle1 = 20, Angle2 = 45;
+		int32 Angle1 = 15, Angle2 = 1;
 		FVector SpawnPos1, SpawnPos2;
 		FRotator SpawnRotation1, SpawnRotation2;
 		GetSpawnPoint(Angle1, SpawnPos1, SpawnRotation1);
@@ -74,17 +75,15 @@ void ACelestialBody::BeginPlay()
 			FVector NormStartPlatformPos = (SpawnPos1 - GetActorLocation());
 			NormStartPlatformPos.Normalize();
 			NormStartPlatformPos.X = 0.f;
-			UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), NormStartPlatformPos.X, NormStartPlatformPos.Y, NormStartPlatformPos.Z);
-			FVector Start = NormStartPlatformPos * (StartPlatform->Size * 83.f);
-			NormStartPlatformPos *= (StartPlatform->Size * 100.f);
-			UE_LOG(LogTemp, Warning, TEXT("%f"), StartPlatform->Size);
-			UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), NormStartPlatformPos.X, NormStartPlatformPos.Y, NormStartPlatformPos.Z);
 
-			UWorld* World = GetWorld();
-			UKismetSystemLibrary::DrawDebugLine(World, Start, NormStartPlatformPos, FLinearColor::Blue, 5000, 5);
+			FVector Start = NormStartPlatformPos * (StartPlatform->Size * 82.f);
+			NormStartPlatformPos *= (StartPlatform->Size * 100.f);
+
+			//UWorld* World = GetWorld();
+			//UKismetSystemLibrary::DrawDebugLine(World, Start, NormStartPlatformPos, FLinearColor::Blue, 5000, 5);
 			
 			Ship->SetActorLocation(Start);
-			//Ship->SetActorRotation(SpawnRotation1);
+			Ship->SetActorRotation(SpawnRotation1);
 		}
 	}
 }

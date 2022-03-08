@@ -40,18 +40,6 @@ public:
 	float CapsuleHalfHeight;
 
 	/**
-	* @brief Sphere that will influence gravitational behaviour of the ship
-	*/
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
-	//class USphereComponent* OutterGravitySphere;
-
-	/**
-	* @brief Inner bound of gravitational influence of the celestial body
-	*/
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gravity")
-	//class USphereComponent* InnerGravitySphere;
-
-	/**
 	* @brief Capsule half height
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gravity")

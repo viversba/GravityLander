@@ -32,8 +32,8 @@ ALandingPlatform::ALandingPlatform()
 		MeshComponent->SetWorldScale3D(FVector(Scale, Scale, Scale));
 	}
 
-	static ConstructorHelpers::FObjectFinder<UMaterial> StartMaterial(TEXT("Material'/Game/StarterContent/Materials/M_Wood_Oak.M_Wood_Oak'"));
-	static ConstructorHelpers::FObjectFinder<UMaterial> FinishMaterial(TEXT("Material'/Game/StarterContent/Materials/M_Metal_Gold.M_Metal_Gold'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial> StartMaterial(TEXT("Material'/Game/StarterContent/Materials/M_Concrete_Grime.M_Concrete_Grime'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial> FinishMaterial(TEXT("Material'/Game/StarterContent/Materials/M_Rock_Sandstone.M_Rock_Sandstone'"));
 
 	if (StartMaterial.Succeeded() && FinishMaterial.Succeeded()) {
 		StartPlatformMaterial = StartMaterial.Object;

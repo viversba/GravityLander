@@ -6,6 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "CelestialBody.h"
 #include "ShipPawnMovementComponent.h"
 #include "UObject/NameTypes.h"
 #include "LandingPlatform.h"
@@ -49,7 +50,7 @@ AShip::AShip()
 	MaxFuel = 100.f;
 	FuelDrainRate = 10.f;
 	BoostStatus = EBoostStatus::EBS_Normal;
-	score = 0;
+	Score = 0;
 	bSpaceKeyPressed = false;
 }
 
@@ -74,8 +75,6 @@ void AShip::Tick(float DeltaTime)
 		float DeltaFuel = FuelDrainRate * DeltaTime;
 		if (Fuel - DeltaFuel >= 0) {
 			Fuel -= DeltaFuel;
-
-		//UE_LOG(LogTemp, Warning, TEXT("%f"), Fuel);
 		}
 	}
 }
@@ -96,7 +95,9 @@ void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void AShip::RotateRight(float value) {
 
 	if (value != 0.0f) {
-		BoxComponent->SetAllPhysicsAngularVelocityInRadians(FVector(value*0.04f, 0.f, 0.f), true);
+		FRotator Rotator = GetActorRotation();
+		Rotator.Roll += value;
+		SetActorRotation(Rotator);
 	}
 }
 
@@ -124,7 +125,7 @@ void AShip::OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AA
 		ALandingPlatform* Platform = Cast<ALandingPlatform>(OtherActor);
 		if (Platform) {
 			if (Platform->PlatformType == EPlatformType::EPT_Finish) {
-				UE_LOG(LogTemp, Warning, TEXT("FINISHED STUFF"));
+				Score += 1;
 			}
 		}
 	}
