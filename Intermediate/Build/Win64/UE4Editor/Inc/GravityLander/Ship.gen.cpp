@@ -272,6 +272,10 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #endif
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_MaxFuel;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AddedSpeed_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_AddedSpeed;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_FuelDrainRate_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_FuelDrainRate;
@@ -398,6 +402,13 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 #endif
 	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel = { "MaxFuel", nullptr, (EPropertyFlags)0x0010000000000014, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, MaxFuel), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_AddedSpeed_MetaData[] = {
+		{ "Category", "Ship Stats" },
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AShip_Statics::NewProp_AddedSpeed = { "AddedSpeed", nullptr, (EPropertyFlags)0x0010000000000014, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AShip, AddedSpeed), METADATA_PARAMS(Z_Construct_UClass_AShip_Statics::NewProp_AddedSpeed_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AShip_Statics::NewProp_AddedSpeed_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate_MetaData[] = {
 		{ "Category", "Ship Stats" },
 		{ "ModuleRelativePath", "Ship.h" },
@@ -430,6 +441,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_CelestialBody,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_Fuel,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_MaxFuel,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_AddedSpeed,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_FuelDrainRate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus_Underlying,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AShip_Statics::NewProp_BoostStatus,
@@ -462,7 +474,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AShip, 3489818256);
+	IMPLEMENT_CLASS(AShip, 3349164061);
 	template<> GRAVITYLANDER_API UClass* StaticClass<AShip>()
 	{
 		return AShip::StaticClass();

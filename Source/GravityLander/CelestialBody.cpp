@@ -11,6 +11,8 @@
 #include "Math/UnrealMathUtility.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Ship.h"
+#include "Collectible.h"
+#include "Booster.h"
 #include "LandingPlatform.h"
 
 // Sets default values
@@ -112,6 +114,30 @@ ALandingPlatform* ACelestialBody::SpawnLandingPlatform(const FVector& Location, 
 	}
 }
 
+ABooster* ACelestialBody::SpawnCollectible(const FVector& Location, const FRotator& Rotator) {
+	
+	UWorld* World = GetWorld();
+	FActorSpawnParameters SpawnParams;
+
+	if (World) {
+
+		ABooster* Collectible = World->SpawnActor<ABooster>(ABooster::StaticClass(), Location, Rotator, SpawnParams);
+
+		FVector NormStartPlatformPos = (Location - GetActorLocation());
+		NormStartPlatformPos.Normalize();
+		NormStartPlatformPos.X = 0.f;
+
+		FVector Start = NormStartPlatformPos *  2300.f;
+
+		Collectible->SetActorLocation(Start);
+
+		return Collectible;
+	}
+	else {
+		return nullptr;
+	}
+}
+
 void ACelestialBody::GameOver() {
 
 	NextLevel();
@@ -130,32 +156,7 @@ void ACelestialBody::NextLevel() {
 
 	int32 Angle1, Angle2;
 
-	Angle1 = FMath::RandRange(0,360);
-
-	bool before = FMath::RandBool(); // Determnines if the second paltform will be spawned left or right
-
-	int32 Score = Ship->Score;
-	if (Score < 2) {
-		Angle2 = before ?
-			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 30) :
-			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 30);
-	}
-	else if (Score < 10) {
-		Angle2 = before ?
-			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 70) :
-			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 70);
-	}
-	else if (Score < 15) {
-		Angle2 = before ?
-			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 130) :
-			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 130);
-	}
-	else {
-		Angle2 = before ?
-			FMath::RandRange(Angle1 - PlatformSpawnPadding, Angle1 - PlatformSpawnPadding - 180) :
-			FMath::RandRange(Angle1 + PlatformSpawnPadding, Angle1 + PlatformSpawnPadding + 180);
-	}
-
+	GetAngles(&Angle1, &Angle2);
 
 	FVector SpawnPos1, SpawnPos2;
 	FRotator SpawnRotation1, SpawnRotation2;
@@ -180,4 +181,67 @@ void ACelestialBody::NextLevel() {
 		CurrentStartPlatform = StartPlatform;
 		CurrentFinishPlatform = FinishPlatform;
 	}
+
+	InstantiateCollectibles();
+}
+
+void ACelestialBody::GetAngles(int32* Angle1, int32* Angle2) {
+	
+	*Angle1 = FMath::RandRange(0, 360);
+
+	bool before = FMath::RandBool(); // Determnines if the second paltform will be spawned left or right
+
+	int32 Score = Ship->Score;
+	if (Score < 2) {
+		*Angle2 = before ?
+			FMath::RandRange(*Angle1 - PlatformSpawnPadding, *Angle1 - PlatformSpawnPadding - 30) :
+			FMath::RandRange(*Angle1 + PlatformSpawnPadding, *Angle1 + PlatformSpawnPadding + 30);
+	}
+	else if (Score < 10) {
+		*Angle2 = before ?
+			FMath::RandRange(*Angle1 - PlatformSpawnPadding, *Angle1 - PlatformSpawnPadding - 70) :
+			FMath::RandRange(*Angle1 + PlatformSpawnPadding, *Angle1 + PlatformSpawnPadding + 70);
+	}
+	else if (Score < 15) {
+		*Angle2 = before ?
+			FMath::RandRange(*Angle1 - PlatformSpawnPadding, *Angle1 - PlatformSpawnPadding - 130) :
+			FMath::RandRange(*Angle1 + PlatformSpawnPadding, *Angle1 + PlatformSpawnPadding + 130);
+	}
+	else {
+		*Angle2 = before ?
+			FMath::RandRange(*Angle1 - PlatformSpawnPadding, *Angle1 - PlatformSpawnPadding - 180) :
+			FMath::RandRange(*Angle1 + PlatformSpawnPadding, *Angle1 + PlatformSpawnPadding + 180);
+	}
+}
+
+void ACelestialBody::InstantiateCollectibles() {
+	
+	UWorld* World = GetWorld();
+	TArray<AActor*> Boosters;
+	UGameplayStatics::GetAllActorsOfClass(World, ABooster::StaticClass(), Boosters);
+	for (AActor* Booster : Boosters) {
+		Booster->Destroy();
+	}
+	Collectibles.Empty();
+
+	int32 Angle1, Angle2, Angle3;
+
+	Angle1 = FMath::RandRange(0, 120);
+	Angle2 = FMath::RandRange(120, 240);
+	Angle3 = FMath::RandRange(240, 360);
+
+	FVector Location1, Location2, Location3;
+	FRotator Rotator1, Rotator2, Rotator3;
+
+	GetSpawnPoint(Angle1, Location1, Rotator1);
+	GetSpawnPoint(Angle2, Location2, Rotator2);
+	GetSpawnPoint(Angle3, Location3, Rotator3);
+
+	ABooster* Collectible1 = SpawnCollectible(Location1, Rotator1);
+	ABooster* Collectible2 = SpawnCollectible(Location2, Rotator2);
+	ABooster* Collectible3 = SpawnCollectible(Location3, Rotator3);
+
+	if (Collectible1) Collectibles.Add(Collectible1->StaticClass());
+	if (Collectible2) Collectibles.Add(Collectible2->StaticClass());
+	if (Collectible3) Collectibles.Add(Collectible3->StaticClass());
 }

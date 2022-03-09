@@ -75,6 +75,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platforms")
 	ALandingPlatform* CurrentFinishPlatform;
 
+	TArray<TSubclassOf<class ABooster>> Collectibles;
+
 private:
 
 	/**
@@ -97,9 +99,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Spawning")
 	class ALandingPlatform* SpawnLandingPlatform(const FVector& Location, const FRotator& Rotator, int32 PlatformType);
 
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
+	class ABooster* SpawnCollectible(const FVector& Location, const FRotator& Rotator);
+
 	void GameOver();
 
 	void NextLevel();
+
+	void GetAngles(int32* Angle1, int32* Angle2);
+
+	void InstantiateCollectibles();
 
 	//UFUNCTION()
 	//virtual void OnOverlapBeginOutterSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

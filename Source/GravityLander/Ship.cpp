@@ -53,6 +53,7 @@ AShip::AShip()
 	Fuel = 100.f;
 	MaxFuel = 100.f;
 	FuelDrainRate = 10.f;
+	AddedSpeed = 1.f;
 	BoostStatus = EBoostStatus::EBS_Normal;
 	Score = 0;
 	bSpaceKeyPressed = false;
@@ -127,7 +128,7 @@ void AShip::Boost(float value) {
 
 	if (value != 0.0f && Fuel > 0.05f) {
 		
-		FVector Up = GetActorUpVector() * 10000;
+		FVector Up = GetActorUpVector() * 10000 * AddedSpeed;
 		BoxComponent->AddForce(Up);
 	}
 }
@@ -146,6 +147,9 @@ void AShip::GameOver() {
 	
 	GetWorld()->GetTimerManager().ClearTimer(FuelTimerHandle);
 	Score = 0;
+	AddedSpeed = 1.f;
+	Fuel = 100.f;
+	BoxComponent->SetAllPhysicsLinearVelocity(FVector(0.f, 0.f, 0.f));
 	if (CelestialBody) {
 		CelestialBody->GameOver();
 	}
@@ -158,6 +162,7 @@ void AShip::OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AA
 			if (Platform->PlatformType == EPlatformType::EPT_Finish) {
 				Score += 1;
 				Fuel = 100.f;
+				AddedSpeed = 1.f;
 				CurrentAddedForce = FVector(0.f, 0.f, 0.f);
 				CelestialBody->NextLevel();
 			}

@@ -77,6 +77,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Ship Stats")
 	float MaxFuel;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Ship Stats")
+	float AddedSpeed;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ship Stats")
 	float FuelDrainRate;
 
@@ -102,6 +105,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void DecreaseSpeed(float Rate);
+
+	void IncreaseSpeed(float Rate);
 
 	void RotateRight(float value);
 
