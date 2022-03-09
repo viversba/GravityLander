@@ -86,7 +86,11 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Ship Stats")
 	int32 Score;
 
+	FTimerHandle FuelTimerHandle;
+
 	bool bSpaceKeyPressed;
+
+	bool bHasFuel;
 
 protected:
 	// Called when the game starts or when spawned
@@ -106,6 +110,9 @@ public:
 	void SpaceKeyDown();
 
 	void SpaceKeyUp();
+
+	UFUNCTION()
+	void GameOver();
 
 	UFUNCTION()
 	virtual void OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

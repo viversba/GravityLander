@@ -19,12 +19,14 @@ struct FHitResult;
 #define GravityLander_Source_GravityLander_Ship_h_20_SPARSE_DATA
 #define GravityLander_Source_GravityLander_Ship_h_20_RPC_WRAPPERS \
  \
-	DECLARE_FUNCTION(execOnOverlapBeginBottomBox);
+	DECLARE_FUNCTION(execOnOverlapBeginBottomBox); \
+	DECLARE_FUNCTION(execGameOver);
 
 
 #define GravityLander_Source_GravityLander_Ship_h_20_RPC_WRAPPERS_NO_PURE_DECLS \
  \
-	DECLARE_FUNCTION(execOnOverlapBeginBottomBox);
+	DECLARE_FUNCTION(execOnOverlapBeginBottomBox); \
+	DECLARE_FUNCTION(execGameOver);
 
 
 #define GravityLander_Source_GravityLander_Ship_h_20_INCLASS_NO_PURE_DECLS \

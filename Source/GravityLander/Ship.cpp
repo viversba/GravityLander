@@ -56,6 +56,7 @@ AShip::AShip()
 	BoostStatus = EBoostStatus::EBS_Normal;
 	Score = 0;
 	bSpaceKeyPressed = false;
+	bHasFuel = true;
 }
 
 // Called when the game starts or when spawned
@@ -91,6 +92,11 @@ void AShip::Tick(float DeltaTime)
 		}
 		else {
 			Fuel = 0.f;
+
+			if (bHasFuel) {
+				GetWorld()->GetTimerManager().SetTimer(FuelTimerHandle, this, &AShip::GameOver, 5, false);
+				bHasFuel = false;
+			}
 		}
 	}
 }
@@ -134,6 +140,15 @@ void AShip::SpaceKeyDown() {
 void AShip::SpaceKeyUp() {
 	
 	bSpaceKeyPressed = false;
+}
+
+void AShip::GameOver() {
+	
+	GetWorld()->GetTimerManager().ClearTimer(FuelTimerHandle);
+	Score = 0;
+	if (CelestialBody) {
+		CelestialBody->GameOver();
+	}
 }
 
 void AShip::OnOverlapBeginBottomBox(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {

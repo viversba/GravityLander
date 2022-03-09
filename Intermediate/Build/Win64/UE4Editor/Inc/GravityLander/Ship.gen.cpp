@@ -101,13 +101,43 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		P_THIS->OnOverlapBeginBottomBox(Z_Param_OverlappedComponent,Z_Param_OtherActor,Z_Param_OtherComp,Z_Param_OtherBodyIndex,Z_Param_bFromSweep,Z_Param_Out_SweepResult);
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(AShip::execGameOver)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->GameOver();
+		P_NATIVE_END;
+	}
 	void AShip::StaticRegisterNativesAShip()
 	{
 		UClass* Class = AShip::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
+			{ "GameOver", &AShip::execGameOver },
 			{ "OnOverlapBeginBottomBox", &AShip::execOnOverlapBeginBottomBox },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_AShip_GameOver_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AShip_GameOver_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Ship.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AShip_GameOver_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AShip, nullptr, "GameOver", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AShip_GameOver_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AShip_GameOver_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AShip_GameOver()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AShip_GameOver_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_AShip_OnOverlapBeginBottomBox_Statics
 	{
@@ -263,6 +293,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_GravityLander,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_AShip_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_AShip_GameOver, "GameOver" }, // 3886592937
 		{ &Z_Construct_UFunction_AShip_OnOverlapBeginBottomBox, "OnOverlapBeginBottomBox" }, // 1431043013
 	};
 #if WITH_METADATA
@@ -431,7 +462,7 @@ void EmptyLinkFunctionForGeneratedCodeShip() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AShip, 3333660169);
+	IMPLEMENT_CLASS(AShip, 3489818256);
 	template<> GRAVITYLANDER_API UClass* StaticClass<AShip>()
 	{
 		return AShip::StaticClass();

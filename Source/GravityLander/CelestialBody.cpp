@@ -114,6 +114,7 @@ ALandingPlatform* ACelestialBody::SpawnLandingPlatform(const FVector& Location, 
 
 void ACelestialBody::GameOver() {
 
+	NextLevel();
 }
 
 void ACelestialBody::NextLevel() {
@@ -127,7 +128,7 @@ void ACelestialBody::NextLevel() {
 		CurrentFinishPlatform = nullptr;
 	}
 
-	int32 Angle1 = 15, Angle2 = 1;
+	int32 Angle1, Angle2;
 
 	Angle1 = FMath::RandRange(0,360);
 
