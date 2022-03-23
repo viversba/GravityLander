@@ -1,5 +1,0 @@
-C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Development\GravityLander\Definitions.GravityLander.h
-C:\Program Files\Epic Games\UE_4.26\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
-C:\Program Files\Epic Games\UE_4.26\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
-C:\Users\nicol\Documents\Unreal Projects\GravityLander\Source\GravityLander/Ship.h
-C:\Users\nicol\Documents\Unreal Projects\GravityLander\Intermediate\Build\Win64\UE4Editor\Inc\GravityLander\Ship.generated.h
