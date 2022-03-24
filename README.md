@@ -6,7 +6,7 @@ Gravity Lander is a simple 2D game where your mission is to take a ship from poi
 
 At the beginning of each level you always start a few meters above a platform (start platform). Your job is to take the ship to the finish platform, which is the other platform located in a random point of the moon. You officially land the ship when the bottom of it (not the top nor any of the sides) touches the finish platform at any point of the platform. Immediately after you touch the bottom ship with the platform, you advance to the next level.
 
-![Gameplay](.github\images\Gameplay.png)
+![Gameplay](https://raw.githubusercontent.com/viversba/GravityLander/master/.github/images/Gameplay.png)
 
 Every time you use the propeller, a small force will be imprinted on the ship. If you run out of fuel and you haven't reached the finish platform, a countdown of 5 seconds starts, at the end of which, you will lose and the score will reset to 0.
 
@@ -21,5 +21,5 @@ Although the finish platform is always placed on random locations on the moon ev
 
 There is one added feature, and it's the existence of boosters. Boosters are blue boxes that are randomly spawned so that when the player collides with one of them, they will increase the force excerted by the propeller.
 
-![Booster](.github\images\Booster.png)
+![Booster](https://raw.githubusercontent.com/viversba/GravityLander/master/.github/images/Booster.png)
 
